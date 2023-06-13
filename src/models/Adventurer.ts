@@ -1,8 +1,8 @@
 export class Adventurer {
   constructor(
     public name: string,
-    public x: number,
-    public y: number,
+    public horizontalPosition: number,
+    public verticalPosition: number,
     public orientation: string,
     public movementSequence: string,
     public treasuresCollected: number = 0
@@ -10,20 +10,20 @@ export class Adventurer {
 
   moveForward(): void {
     if (this.orientation === "N") {
-      this.y--;
+      this.verticalPosition--;
     } else if (this.orientation === "E") {
-      this.x++;
+      this.horizontalPosition++;
     } else if (this.orientation === "S") {
-      this.y++;
+      this.verticalPosition++;
     } else if (this.orientation === "W") {
-      this.x--;
+      this.horizontalPosition--;
     }
   }
 
   turnLeft(): void {
     const orientations = ["N", "W", "S", "E"];
     const currentIndex = orientations.indexOf(this.orientation);
-    this.orientation = orientations[(currentIndex + 3) % 4];
+    this.orientation = orientations[(currentIndex + 1) % 4];
   }
 
   turnRight(): void {
