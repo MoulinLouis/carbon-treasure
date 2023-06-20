@@ -1,8 +1,8 @@
-import { Logger } from "../utils/Logger";
-import { Adventurer } from "./Adventurer";
-import { Cell, CellType } from "./Cell";
-import { Mountain } from "./Moutain";
-import { Treasure } from "./Treasure";
+import { LoggerUtils } from "../utils/loggerUtils";
+import { Adventurer } from "./adventurer";
+import { Cell, CellType } from "./cell";
+import { Mountain } from "./moutain";
+import { Treasure } from "./treasure";
 
 export class Area {
   public grid: Cell[][];
@@ -17,7 +17,7 @@ export class Area {
       }
     }
 
-    Logger.log(`Area of size ${width}x${height} created.`);
+    LoggerUtils.write(`Area of size ${width}x${height} created.`);
   }
 
   displayMap(): void {
@@ -45,7 +45,7 @@ export class Area {
 
   addMountain(x: number, y: number): void {
     if (!this.isCellEmpty(x, y)) {
-      Logger.log(
+      LoggerUtils.write(
         `There is already a treasure or mountain at position (${x}, ${y}).`
       );
       return;
@@ -56,7 +56,7 @@ export class Area {
 
   addTreasure(x: number, y: number, amount: number): void {
     if (!this.isCellEmpty(x, y)) {
-      Logger.log(
+      LoggerUtils.write(
         `There is already a treasure or mountain at position (${x}, ${y}).`
       );
       return;
@@ -74,7 +74,7 @@ export class Area {
       adventurer.horizontalPosition = newX;
       adventurer.verticalPosition = newY;
 
-      Logger.log(
+      LoggerUtils.write(
         `Adventurer ${adventurer.name} moved forward in direction ${adventurer.orientation} and is now at (${newX}, ${newY}).`
       );
       if (this.grid[newY][newX].type === CellType.TREASURE) {
@@ -82,7 +82,7 @@ export class Area {
         treasure.amount--;
         adventurer.treasuresCollected++;
 
-        Logger.log(
+        LoggerUtils.write(
           `Adventurer ${adventurer.name} encountered a treasure at (${newX}, ${newY}) and now has ${adventurer.treasuresCollected} treasures.`
         );
         if (treasure.amount === 0) {
@@ -91,7 +91,7 @@ export class Area {
         }
       }
     } else {
-      Logger.log(
+      LoggerUtils.write(
         `Adventurer ${adventurer.name} tried to move forward in direction ${adventurer.orientation} but there was a mountain (${newX}, ${newY}) in the way.`
       );
     }

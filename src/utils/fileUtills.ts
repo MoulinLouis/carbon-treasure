@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 
-class FileReader {
-  public readFile(filePath: string): string {
+export class FileUtils {
+  public static readFile(filePath: string): string {
     try {
       if (path.extname(filePath) !== ".txt") {
         throw new Error("Invalid file type. Only .txt files are allowed.");
@@ -19,6 +19,16 @@ class FileReader {
       return "";
     }
   }
-}
 
-export default FileReader;
+  public static writeFile(filePath: string, data: string): void {
+    try {
+      if (path.extname(filePath) !== ".txt") {
+        throw new Error("Invalid file type. Only .txt files are allowed.");
+      }
+
+      fs.writeFileSync(path.resolve(filePath), data, "utf-8");
+    } catch (error) {
+      console.error(`Error writing file to path ${filePath}`, error);
+    }
+  }
+}

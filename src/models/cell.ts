@@ -1,5 +1,5 @@
-import { Mountain } from "./Moutain";
-import { Treasure } from "./Treasure";
+import { Mountain } from "./moutain";
+import { Treasure } from "./treasure";
 
 export enum CellType {
   PLAIN = "PLAIN",

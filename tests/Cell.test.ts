@@ -1,6 +1,6 @@
-import { Cell, CellType } from "../src/models/Cell";
-import { Mountain } from "../src/models/Moutain";
-import { Treasure } from "../src/models/Treasure";
+import { Cell, CellType } from "../src/models/cell";
+import { Mountain } from "../src/models/moutain";
+import { Treasure } from "../src/models/treasure";
 
 describe("Cell", () => {
   it("should create a cell with default values", () => {

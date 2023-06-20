@@ -1,9 +1,9 @@
-import { Adventurer } from "../models/Adventurer";
-import { Area } from "../models/Area";
-import { Mountain } from "../models/Moutain";
-import { Treasure } from "../models/Treasure";
+import { Adventurer } from "../models/adventurer";
+import { Area } from "../models/area";
+import { Mountain } from "../models/moutain";
+import { Treasure } from "../models/treasure";
 
-export class Parser {
+export class ParserUtils {
   public static parseInputData(inputData: string): {
     area: Area;
     adventurers: Adventurer[];

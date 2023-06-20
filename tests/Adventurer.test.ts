@@ -1,6 +1,6 @@
-import { Adventurer } from "../src/models/Adventurer";
-import { Area } from "../src/models/Area";
-import { Treasure } from "../src/models/Treasure";
+import { Adventurer } from "../src/models/adventurer";
+import { Area } from "../src/models/area";
+import { Treasure } from "../src/models/treasure";
 
 describe("Adventurer", () => {
   let area: Area;

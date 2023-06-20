@@ -1,5 +1,5 @@
-import { Logger } from "../utils/Logger";
-import { Area } from "./Area";
+import { LoggerUtils } from "../utils/loggerUtils";
+import { Area } from "./area";
 
 export class Adventurer {
   constructor(
@@ -11,7 +11,7 @@ export class Adventurer {
     public treasuresCollected: number = 0,
     public area?: Area | null
   ) {
-    Logger.log(
+    LoggerUtils.write(
       `Adventurer ${name} created at (${horizontalPosition}, ${verticalPosition}) facing ${orientation}.`
     );
   }
@@ -67,7 +67,7 @@ export class Adventurer {
         if (newX >= 0 && newY >= 0 && this.area) {
           this.area.moveAdventurer(this, newX, newY);
         } else {
-          Logger.log(
+          LoggerUtils.write(
             `Adventurer ${this.name} tried to move outside the area and is still at (${x}, ${y}).`
           );
         }
@@ -76,7 +76,7 @@ export class Adventurer {
       } else if (movement === "D" || movement === "G") {
         this.changeOrientation(movement);
 
-        Logger.log(
+        LoggerUtils.write(
           `Adventurer ${this.name} turned ${
             movement === "D" ? "right" : "left"
           } and is now facing ${this.orientation}.`

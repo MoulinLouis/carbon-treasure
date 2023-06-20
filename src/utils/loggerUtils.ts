@@ -1,10 +1,10 @@
 const fs = require("fs");
 import path from "path";
 
-export class Logger {
+export class LoggerUtils {
   private static filePath = "./data/log.txt";
 
-  public static log(message: string) {
+  public static write(message: string) {
     const timestamp = new Date().toISOString();
     fs.appendFileSync(
       path.resolve(this.filePath),
