@@ -1,20 +1,18 @@
-import { Area } from "./models/area";
-import { Adventurer } from "./models/adventurer";
 import { ParserUtils } from "./utils/parserUtils";
 import { FileUtils } from "./utils/fileUtills";
 
-// Définir fichiers d'entrée et de sortie
+// Define input and output files
 const inputFilePath = "./data/input.txt";
 const outputFilePath = "./data/output.txt";
 
 console.log(`Reading file from path ${inputFilePath}`);
 
-// Lire le fichier d'entrée (./data/input.txt)
+// Read the input file (./data/input.txt)
 const inputData = FileUtils.readFile(inputFilePath);
 
 const { area, adventurers } = ParserUtils.parseInputData(inputData);
 
-// Ajouter des aventuriers et execution de leurs mouvements
+// Add adventurers and execute their movements
 adventurers.forEach((adventurer) => {
   adventurer.executeMovementSequence();
 });
@@ -22,10 +20,10 @@ adventurers.forEach((adventurer) => {
 console.log(area.grid);
 console.log(adventurers);
 
-// Formattage des données de sortie
+// Format output data
 const outputData = ParserUtils.formatOutputData(area, adventurers);
 
-// On écrit le résultat de formattage dans le fichier de sortie (./data/output.txt)
+// Write the formatted result to the output file (./data/output.txt)
 FileUtils.writeFile(outputFilePath, outputData);
 
 console.log(`Successfully wrote output file: ${outputFilePath}`);

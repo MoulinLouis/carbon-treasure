@@ -71,8 +71,6 @@ export class Adventurer {
             `Adventurer ${this.name} tried to move outside the area and is still at (${x}, ${y}).`
           );
         }
-
-
       } else if (movement === "D" || movement === "G") {
         this.changeOrientation(movement);
 
