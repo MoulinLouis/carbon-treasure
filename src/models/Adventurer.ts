@@ -9,7 +9,7 @@ export class Adventurer {
     public orientation: string,
     public movementSequence: string,
     public treasuresCollected: number = 0,
-    public area?: Area
+    public area?: Area | null
   ) {
     Logger.log(
       `Adventurer ${name} created at (${horizontalPosition}, ${verticalPosition}) facing ${orientation}.`
