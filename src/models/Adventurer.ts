@@ -1,3 +1,6 @@
+import { Logger } from "../utils/Logger";
+import { Area } from "./Area";
+
 export class Adventurer {
   constructor(
     public name: string,
@@ -5,8 +8,13 @@ export class Adventurer {
     public verticalPosition: number,
     public orientation: string,
     public movementSequence: string,
-    public treasuresCollected: number = 0
-  ) {}
+    public treasuresCollected: number = 0,
+    public area?: Area
+  ) {
+    Logger.log(
+      `Adventurer ${name} created at (${horizontalPosition}, ${verticalPosition}) facing ${orientation}.`
+    );
+  }
 
   moveForward(): void {
     if (this.orientation === "N") {
@@ -32,14 +40,47 @@ export class Adventurer {
     this.orientation = orientations[(currentIndex + 1) % 4];
   }
 
+  changeOrientation(movement: string): void {
+    if (movement === "D") {
+      this.turnRight();
+    } else if (movement === "G") {
+      this.turnLeft();
+    }
+  }
+
   executeMovementSequence(): void {
     for (const movement of this.movementSequence) {
       if (movement === "A") {
-        this.moveForward();
-      } else if (movement === "G") {
-        this.turnLeft();
-      } else if (movement === "D") {
-        this.turnRight();
+        const { horizontalPosition: x, verticalPosition: y } = this;
+        let newX = x;
+        let newY = y;
+
+        if (this.orientation === "N") {
+          newY--;
+        } else if (this.orientation === "E") {
+          newX++;
+        } else if (this.orientation === "S") {
+          newY++;
+        } else if (this.orientation === "W") {
+          newX--;
+        }
+        if (newX >= 0 && newY >= 0 && this.area) {
+          this.area.moveAdventurer(this, newX, newY);
+        } else {
+          Logger.log(
+            `Adventurer ${this.name} tried to move outside the area and is still at (${x}, ${y}).`
+          );
+        }
+
+
+      } else if (movement === "D" || movement === "G") {
+        this.changeOrientation(movement);
+
+        Logger.log(
+          `Adventurer ${this.name} turned ${
+            movement === "D" ? "right" : "left"
+          } and is now facing ${this.orientation}.`
+        );
       }
     }
   }
