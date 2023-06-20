@@ -44,13 +44,29 @@ export class Area {
   }
 
   addMountain(x: number, y: number): void {
+    if (!this.isCellEmpty(x, y)) {
+      Logger.log(
+        `There is already a treasure or mountain at position (${x}, ${y}).`
+      );
+      return;
+    }
     this.grid[y][x].type = CellType.MOUNTAIN;
     this.grid[y][x].content = new Mountain();
   }
 
   addTreasure(x: number, y: number, amount: number): void {
+    if (!this.isCellEmpty(x, y)) {
+      Logger.log(
+        `There is already a treasure or mountain at position (${x}, ${y}).`
+      );
+      return;
+    }
     this.grid[y][x].type = CellType.TREASURE;
     this.grid[y][x].content = new Treasure(amount);
+  }
+
+  isCellEmpty(x: number, y: number): boolean {
+    return this.grid[y][x].type === CellType.PLAIN;
   }
 
   moveAdventurer(adventurer: Adventurer, newX: number, newY: number): void {
@@ -74,6 +90,10 @@ export class Area {
           this.grid[newY][newX].content = null;
         }
       }
+    } else {
+      Logger.log(
+        `Adventurer ${adventurer.name} tried to move forward in direction ${adventurer.orientation} but there was a mountain (${newX}, ${newY}) in the way.`
+      );
     }
   }
 }
