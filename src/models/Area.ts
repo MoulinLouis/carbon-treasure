@@ -53,37 +53,25 @@ export class Area {
     this.grid[y][x].content = new Treasure(amount);
   }
 
-  moveAdventurer(
-    adventurer: Adventurer,
-    newHorizontalPosition: number,
-    newVerticalPosition: number
-  ): void {
-    if (
-      this.grid[newVerticalPosition][newHorizontalPosition].type !==
-      CellType.MOUNTAIN
-    ) {
-      adventurer.horizontalPosition = newHorizontalPosition;
-      adventurer.verticalPosition = newVerticalPosition;
+  moveAdventurer(adventurer: Adventurer, newX: number, newY: number): void {
+    if (this.grid[newY][newX].type !== CellType.MOUNTAIN) {
+      adventurer.horizontalPosition = newX;
+      adventurer.verticalPosition = newY;
 
       Logger.log(
-        `Adventurer ${adventurer.name} moved forward in direction ${adventurer.orientation} and is now at (${newHorizontalPosition}, ${newVerticalPosition}).`
+        `Adventurer ${adventurer.name} moved forward in direction ${adventurer.orientation} and is now at (${newX}, ${newY}).`
       );
-      if (
-        this.grid[newVerticalPosition][newHorizontalPosition].type ===
-        CellType.TREASURE
-      ) {
-        const treasure = this.grid[newVerticalPosition][newHorizontalPosition]
-          .content as Treasure;
+      if (this.grid[newY][newX].type === CellType.TREASURE) {
+        const treasure = this.grid[newY][newX].content as Treasure;
         treasure.amount--;
         adventurer.treasuresCollected++;
 
         Logger.log(
-          `Adventurer ${adventurer.name} encountered a treasure at (${newHorizontalPosition}, ${newVerticalPosition}).`
+          `Adventurer ${adventurer.name} encountered a treasure at (${newX}, ${newY}) and now has ${adventurer.treasuresCollected} treasures.`
         );
         if (treasure.amount === 0) {
-          this.grid[newVerticalPosition][newHorizontalPosition].type =
-            CellType.PLAIN;
-          this.grid[newVerticalPosition][newHorizontalPosition].content = null;
+          this.grid[newY][newX].type = CellType.PLAIN;
+          this.grid[newY][newX].content = null;
         }
       }
     }
