@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsc --noEmit && ts-node ./src/index.ts",
     "test": "jest",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "coverage": "jest --coverage --coverageReporters html"
   },
   "keywords": [],
   "author": "",
