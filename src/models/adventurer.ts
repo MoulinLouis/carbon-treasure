@@ -101,6 +101,10 @@ export class Adventurer {
             movement === "D" ? "right" : "left"
           } and is now facing ${this.orientation}.`
         );
+      } else {
+        LoggerUtils.write(
+          `Adventurer ${this.name} tried to execute an invalid movement: ${movement}.`
+        );
       }
     }
   }
