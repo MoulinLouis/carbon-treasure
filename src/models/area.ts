@@ -74,29 +74,41 @@ export class Area {
   }
 
   moveAdventurer(adventurer: Adventurer, newX: number, newY: number): void {
-    if (this.grid[newY][newX].type !== CellType.MOUNTAIN) {
-      adventurer.horizontalPosition = newX;
-      adventurer.verticalPosition = newY;
+    const oldX = adventurer.horizontalPosition;
+    const oldY = adventurer.verticalPosition;
 
-      LoggerUtils.write(
-        `Adventurer ${adventurer.name} moved forward in direction ${adventurer.orientation} and is now at (${newX}, ${newY}).`
-      );
-      if (this.grid[newY][newX].type === CellType.TREASURE) {
-        const treasure = this.grid[newY][newX].content as Treasure;
-        treasure.amount--;
-        adventurer.treasuresCollected++;
+    if (!this.grid[newY][newX].occupant) {
+      if (this.grid[newY][newX].type !== CellType.MOUNTAIN) {
+        adventurer.horizontalPosition = newX;
+        adventurer.verticalPosition = newY;
+
+        this.grid[oldY][oldX].occupant = null;
+        this.grid[newY][newX].occupant = adventurer;
 
         LoggerUtils.write(
-          `Adventurer ${adventurer.name} encountered a treasure at (${newX}, ${newY}) and now has ${adventurer.treasuresCollected} treasures.`
+          `Adventurer ${adventurer.name} moved forward in direction ${adventurer.orientation} and is now at (${newX}, ${newY}).`
         );
-        if (treasure.amount === 0) {
-          this.grid[newY][newX].type = CellType.PLAIN;
-          this.grid[newY][newX].content = null;
+        if (this.grid[newY][newX].type === CellType.TREASURE) {
+          const treasure = this.grid[newY][newX].content as Treasure;
+          treasure.amount--;
+          adventurer.treasuresCollected++;
+
+          LoggerUtils.write(
+            `Adventurer ${adventurer.name} encountered a treasure at (${newX}, ${newY}) and now has ${adventurer.treasuresCollected} treasures.`
+          );
+          if (treasure.amount === 0) {
+            this.grid[newY][newX].type = CellType.PLAIN;
+            this.grid[newY][newX].content = null;
+          }
         }
+      } else {
+        LoggerUtils.write(
+          `Adventurer ${adventurer.name} tried to move forward in direction ${adventurer.orientation} but there was a mountain (${newX}, ${newY}) in the way.`
+        );
       }
     } else {
       LoggerUtils.write(
-        `Adventurer ${adventurer.name} tried to move forward in direction ${adventurer.orientation} but there was a mountain (${newX}, ${newY}) in the way.`
+        `Adventurer ${adventurer.name} tried to move forward in direction ${adventurer.orientation} but there was another adventurer (${newX}, ${newY}) in the way.`
       );
     }
   }
