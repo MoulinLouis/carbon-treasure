@@ -123,11 +123,15 @@ A - Lara - 0 - 3 - S - 3
 
 ```npm install```
 
+- Ecris un fichier dans `./data/input.txt`. Un exemple est déjà prêt, n'hésite pas à le modifier.
+
 - Exécutez le programme avec la commande suivante :
 
 ```npm start```
 
 - Le résultat sera écrit dans le fichier `./data/output.txt`.
+
+- Des logs de toutes les actions effectuées sur le jeu sont présent dans le fichier `./data/log.txt`.
 
 ## Test
 

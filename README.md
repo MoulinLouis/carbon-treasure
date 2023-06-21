@@ -129,6 +129,8 @@ A - Lara - 0 - 3 - S - 3
 
 - The output will be written to the `./data/output.txt` file.
 
+- Logs of every moves made in the game are written on the `./data/log.txt`.
+
 ## Testing
 
 You can run the unit tests using the following command:
