@@ -69,6 +69,10 @@ export class Area {
     return this.grid[y][x].type === CellType.PLAIN;
   }
 
+  isCellValid(x: number, y: number): boolean {
+    return x >= 0 && x < this.width && y >= 0 && y < this.height;
+  }
+
   moveAdventurer(adventurer: Adventurer, newX: number, newY: number): void {
     if (this.grid[newY][newX].type !== CellType.MOUNTAIN) {
       adventurer.horizontalPosition = newX;
