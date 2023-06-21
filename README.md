@@ -121,6 +121,8 @@ A - Lara - 0 - 3 - S - 3
 
 ```npm install```
 
+- Write an input file on `./data/input.txt`. An example is already ready, feel free to edit it.
+
 - Run the program using the following command:
 
 ```npm start```

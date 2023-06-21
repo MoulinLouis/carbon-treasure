@@ -11,6 +11,28 @@ export class Adventurer {
     public treasuresCollected: number = 0,
     public area?: Area | null
   ) {
+    if (
+      area &&
+      (horizontalPosition < 0 ||
+        horizontalPosition >= area.width ||
+        verticalPosition < 0 ||
+        verticalPosition >= area.height)
+    ) {
+      throw new Error(
+        `Invalid adventurer position (${horizontalPosition}, ${verticalPosition}) for area of size ${area.width}x${area.height}.`
+      );
+    }
+
+    if (area && area.grid[verticalPosition][horizontalPosition].occupant) {
+      throw new Error(
+        `Cell at position (${horizontalPosition}, ${verticalPosition}) is already occupied by ${area.grid[verticalPosition][horizontalPosition].occupant?.name}.`
+      );
+    }
+
+    if (area) {
+      area.grid[verticalPosition][horizontalPosition].occupant = this;
+    }
+
     LoggerUtils.write(
       `Adventurer ${name} created at (${horizontalPosition}, ${verticalPosition}) facing ${orientation}.`
     );
@@ -64,7 +86,7 @@ export class Adventurer {
         } else if (this.orientation === "W") {
           newX--;
         }
-        if (newX >= 0 && newY >= 0 && this.area) {
+        if (this.area?.isCellValid(newX, newY)) {
           this.area.moveAdventurer(this, newX, newY);
         } else {
           LoggerUtils.write(
