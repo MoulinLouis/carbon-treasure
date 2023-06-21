@@ -129,8 +129,6 @@ A - Lara - 0 - 3 - S - 3
 
 - The output will be written to the `./data/output.txt` file.
 
-
-
 ## Testing
 
 You can run the unit tests using the following command:
