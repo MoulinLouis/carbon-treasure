@@ -1,3 +1,9 @@
+<!-- Language : English -->
+
+## Langues
+- [English](README.md)
+- [Français](README.fr.md)
+
 # Treasure Map
 
 ## Context
