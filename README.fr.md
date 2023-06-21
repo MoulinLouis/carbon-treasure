@@ -6,7 +6,7 @@
 
 # Carte au trésor
 
-## Context
+## Contexte
 
 Le gouvernement péruvien a autorisé les aventuriers à explorer les 85 182 km² de la région de Madre de Dios. Votre tâche est de créer un système qui suit les déplacements et les collections de trésors de ces aventuriers. Le gouvernement péruvien met l'accent sur l'importance d'un code de haute qualité, lisible et maintenable, ce qui inclut l'écriture de tests.
 
