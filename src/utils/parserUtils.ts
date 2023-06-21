@@ -36,9 +36,10 @@ export class ParserUtils {
             parseInt(parts[2]),
             parseInt(parts[3]),
             parts[4],
-            parts[5]
+            parts[5],
+            0,
+            area
           );
-          adventurer.area = area;
           adventurers.push(adventurer);
           break;
         default:
