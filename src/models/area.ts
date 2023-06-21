@@ -26,16 +26,19 @@ export class Area {
       for (let j = 0; j < this.width; j++) {
         switch (this.grid[i][j].type) {
           case CellType.PLAIN:
-            mapString += ".";
+            mapString += " . ";
             break;
           case CellType.MOUNTAIN:
-            mapString += "M";
+            mapString += " M ";
             break;
           case CellType.TREASURE:
-            mapString += "T";
+            mapString += " T ";
             break;
           default:
-            mapString += "?";
+            mapString += " ? ";
+        }
+        if(this.grid[i][j].occupant) {
+          mapString += " A (" + this.grid[i][j].occupant?.name + ")";
         }
       }
       mapString += "\n";

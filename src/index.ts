@@ -10,15 +10,17 @@ console.log(`Reading file from path ${inputFilePath}`);
 // Read the input file (./data/input.txt)
 const inputData = FileUtils.readFile(inputFilePath);
 
+// Parse the input data
 const { area, adventurers } = ParserUtils.parseInputData(inputData);
+
+// Show the map in the console
+console.log("Displaying map:");
+area.displayMap();
 
 // Add adventurers and execute their movements
 adventurers.forEach((adventurer) => {
   adventurer.executeMovementSequence();
 });
-
-console.log(area.grid);
-console.log(adventurers);
 
 // Format output data
 const outputData = ParserUtils.formatOutputData(area, adventurers);
