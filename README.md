@@ -1,6 +1,6 @@
 <!-- Language : English -->
 
-## Langues
+## Languages
 - [English](README.md)
 - [Français](README.fr.md)
 
