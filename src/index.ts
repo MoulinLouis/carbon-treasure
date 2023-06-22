@@ -15,13 +15,30 @@ try {
   const { area, adventurers } = ParserUtils.parseInputData(inputData);
 
   // Show the map in the console
-  console.log("Displaying map:");
+  console.log("Displaying base map:");
   console.log(area.displayMap());
 
-  // Add adventurers and execute their movements
-  adventurers.forEach((adventurer) => {
-    adventurer.executeMovementSequence();
-  });
+  // // Add adventurers and execute their movements
+  // adventurers.forEach((adventurer) => {
+  //   adventurer.executeMovementSequence();
+  // });
+
+  const movementSequences = adventurers.map((a) => a.executeMovementSequence());
+  let doneCount = 0;
+
+  while (doneCount < adventurers.length) {
+    for (let i = 0; i < movementSequences.length; i++) {
+      const { done } = movementSequences[i].next();
+      if (done) {
+        doneCount++;
+        movementSequences.splice(i, 1);
+        i--;
+      }
+    }
+  }
+
+  console.log("Displaying actual map:");
+  console.log(area.displayMap());
 
   // Format output data
   const outputData = ParserUtils.formatOutputData(area, adventurers);

@@ -70,7 +70,7 @@ export class Adventurer {
     }
   }
 
-  executeMovementSequence(): void {
+  *executeMovementSequence(): Generator<void, void, unknown> {
     for (const movement of this.movementSequence) {
       if (movement === "A") {
         const { horizontalPosition: x, verticalPosition: y } = this;
@@ -106,6 +106,7 @@ export class Adventurer {
           `Adventurer ${this.name} tried to execute an invalid movement: ${movement}.`
         );
       }
+      yield;
     }
   }
 }
