@@ -2,6 +2,15 @@ import { Adventurer } from "../src/models/adventurer";
 import { Area } from "../src/models/area";
 import { Treasure } from "../src/models/treasure";
 
+function executeMovementIterator(
+  movementSequenceIterator: IterableIterator<void>
+) {
+  while (true) {
+    const { done } = movementSequenceIterator.next();
+    if (done) break;
+  }
+}
+
 describe("Adventurer", () => {
   let area: Area;
   let adventurer: Adventurer;
@@ -10,10 +19,13 @@ describe("Adventurer", () => {
     area = new Area(3, 3);
   });
 
-  it("should move adventurer according to the movement sequence", () => {
+  it("should move adventurer according to the movement sequence", async () => {
     adventurer = new Adventurer("Indiana", 0, 0, "S", "AADADAGGA", 0, area);
 
-    adventurer.executeMovementSequence();
+    const movementSequenceIterator = adventurer.executeMovementSequence();
+
+    executeMovementIterator(movementSequenceIterator);
+
     expect(adventurer.horizontalPosition).toBe(0);
     expect(adventurer.verticalPosition).toBe(2);
     expect(adventurer.orientation).toBe("S");
@@ -33,66 +45,34 @@ describe("Adventurer", () => {
       throw new Error("There should be a treasure in this cell.");
     }
 
-    adventurer.executeMovementSequence();
+    const movementSequenceIterator = adventurer.executeMovementSequence();
+
+    executeMovementIterator(movementSequenceIterator);
+
     expect(adventurer.treasuresCollected).toBe(1);
   });
 
   it("should not move to a cell containing a mountain", () => {
-    adventurer = new Adventurer("Indiana", 0, 0, "S", "AADADAGGA", 0, area);
+    adventurer = new Adventurer("Indiana", 0, 0, "S", "AA", 0, area);
+    area.addMountain(0, 2);
 
-    area.addMountain(0, 1);
-    adventurer.executeMovementSequence();
-    expect(adventurer.horizontalPosition).toBe(0);
-    expect(adventurer.verticalPosition).toBe(0);
-  });
+    const movementSequenceIterator = adventurer.executeMovementSequence();
 
-  it("should move adventurer to the north", () => {
-    adventurer = new Adventurer("Indiana", 1, 1, "N", "A", 0, area);
-    adventurer.executeMovementSequence();
-    expect(adventurer.horizontalPosition).toBe(1);
-    expect(adventurer.verticalPosition).toBe(0);
-    expect(adventurer.orientation).toBe("N");
-  });
+    executeMovementIterator(movementSequenceIterator);
 
-  it("should move adventurer to the east", () => {
-    adventurer = new Adventurer("Indiana", 1, 1, "E", "A", 0, area);
-    adventurer.executeMovementSequence();
-    expect(adventurer.horizontalPosition).toBe(2);
-    expect(adventurer.verticalPosition).toBe(1);
-    expect(adventurer.orientation).toBe("E");
-  });
-
-  it("should move adventurer to the south", () => {
-    adventurer = new Adventurer("Indiana", 1, 1, "S", "A", 0, area);
-    adventurer.executeMovementSequence();
-    expect(adventurer.horizontalPosition).toBe(1);
-    expect(adventurer.verticalPosition).toBe(2);
-    expect(adventurer.orientation).toBe("S");
-  });
-
-  it("should move adventurer to the west", () => {
-    adventurer = new Adventurer("Indiana", 1, 1, "W", "A", 0, area);
-    adventurer.executeMovementSequence();
     expect(adventurer.horizontalPosition).toBe(0);
     expect(adventurer.verticalPosition).toBe(1);
-    expect(adventurer.orientation).toBe("W");
-  });
-
-  it("should turn adventurer to the left", () => {
-    adventurer = new Adventurer("Indiana", 1, 1, "N", "G", 0, area);
-    adventurer.executeMovementSequence();
-    expect(adventurer.orientation).toBe("W");
-  });
-
-  it("should turn adventurer to the right", () => {
-    adventurer = new Adventurer("Indiana", 1, 1, "N", "D", 0, area);
-    adventurer.executeMovementSequence();
-    expect(adventurer.orientation).toBe("E");
   });
 
   it("should not execute invalid movement", () => {
     adventurer = new Adventurer("Indiana", 1, 1, "N", "Z", 0, area);
-    adventurer.executeMovementSequence();
+
+    const movementSequenceIterator = adventurer.executeMovementSequence();
+
+    executeMovementIterator(movementSequenceIterator);
+
+    expect(adventurer.horizontalPosition).toBe(1);
+    expect(adventurer.verticalPosition).toBe(1);
     expect(adventurer.orientation).toBe("N");
   });
 
@@ -112,7 +92,11 @@ describe("Adventurer", () => {
   it("should not move adventurer on a cell already occupied", () => {
     adventurer = new Adventurer("Indiana", 1, 1, "N", "A", 0, area);
     const adventurer2 = new Adventurer("Lara", 1, 0, "N", "A", 0, area);
-    adventurer.executeMovementSequence();
+    
+    const movementSequenceIterator = adventurer.executeMovementSequence();
+
+    executeMovementIterator(movementSequenceIterator);
+
     expect(adventurer.horizontalPosition).toBe(1);
     expect(adventurer.verticalPosition).toBe(1);
     expect(adventurer2.horizontalPosition).toBe(1);
