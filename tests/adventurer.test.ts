@@ -89,4 +89,33 @@ describe("Adventurer", () => {
     adventurer.executeMovementSequence();
     expect(adventurer.orientation).toBe("E");
   });
+
+  it("should not execute invalid movement", () => {
+    adventurer = new Adventurer("Indiana", 1, 1, "N", "Z", 0, area);
+    adventurer.executeMovementSequence();
+    expect(adventurer.orientation).toBe("N");
+  });
+
+  it("should not create adventurer outside of the area", () => {
+    expect(() => {
+      adventurer = new Adventurer("Indiana", 3, 3, "N", "A", 0, area);
+    }).toThrowError("Invalid adventurer position (3, 3) for area of size 3x3.");
+  });
+
+  it("should not create adventurer on a cell already occupied", () => {
+    adventurer = new Adventurer("Indiana", 1, 1, "N", "A", 0, area);
+    expect(() => {
+      adventurer = new Adventurer("Indiana", 1, 1, "N", "A", 0, area);
+    }).toThrowError("Cell at position (1, 1) is already occupied by Indiana.");
+  });
+
+  it("should not move adventurer on a cell already occupied", () => {
+    adventurer = new Adventurer("Indiana", 1, 1, "N", "A", 0, area);
+    const adventurer2 = new Adventurer("Lara", 1, 0, "N", "A", 0, area);
+    adventurer.executeMovementSequence();
+    expect(adventurer.horizontalPosition).toBe(1);
+    expect(adventurer.verticalPosition).toBe(1);
+    expect(adventurer2.horizontalPosition).toBe(1);
+    expect(adventurer2.verticalPosition).toBe(0);
+  });
 });
