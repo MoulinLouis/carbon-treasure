@@ -8,22 +8,28 @@ const outputFilePath = "./data/output.txt";
 console.log(`Reading file from path ${inputFilePath}`);
 
 // Read the input file (./data/input.txt)
-const inputData = FileUtils.readFile(inputFilePath);
+try {
+  const inputData = FileUtils.readFile(inputFilePath);
 
-const { area, adventurers } = ParserUtils.parseInputData(inputData);
+  // Parse the input data
+  const { area, adventurers } = ParserUtils.parseInputData(inputData);
 
-// Add adventurers and execute their movements
-adventurers.forEach((adventurer) => {
-  adventurer.executeMovementSequence();
-});
+  // Show the map in the console
+  console.log("Displaying map:");
+  console.log(area.displayMap());
 
-console.log(area.grid);
-console.log(adventurers);
+  // Add adventurers and execute their movements
+  adventurers.forEach((adventurer) => {
+    adventurer.executeMovementSequence();
+  });
 
-// Format output data
-const outputData = ParserUtils.formatOutputData(area, adventurers);
+  // Format output data
+  const outputData = ParserUtils.formatOutputData(area, adventurers);
 
-// Write the formatted result to the output file (./data/output.txt)
-FileUtils.writeFile(outputFilePath, outputData);
+  // Write the formatted result to the output file (./data/output.txt)
+  FileUtils.writeFile(outputFilePath, outputData);
 
-console.log(`Successfully wrote output file: ${outputFilePath}`);
+  console.log(`Successfully wrote output file: ${outputFilePath}`);
+} catch (err) {
+  console.error(`Unexpected error: ${err}`);
+}

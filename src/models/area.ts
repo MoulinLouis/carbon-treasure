@@ -20,46 +20,58 @@ export class Area {
     LoggerUtils.write(`Area of size ${width}x${height} created.`);
   }
 
-  displayMap(): void {
+  displayMap(): string {
     let mapString = "";
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width; j++) {
         switch (this.grid[i][j].type) {
           case CellType.PLAIN:
-            mapString += ".";
+            mapString += " . ";
             break;
           case CellType.MOUNTAIN:
-            mapString += "M";
+            mapString += " M ";
             break;
           case CellType.TREASURE:
-            mapString += "T";
+            const treasure = this.grid[i][j].content as Treasure;
+            mapString += ` T(${treasure.amount}) `;
             break;
           default:
-            mapString += "?";
+            mapString += " ? ";
+        }
+        if (this.grid[i][j].occupant) {
+          mapString += " A(" + this.grid[i][j].occupant?.name + ")";
         }
       }
       mapString += "\n";
     }
-    console.log(mapString);
+    return mapString;
   }
 
   addMountain(x: number, y: number): void {
+    if (!this.isCellValid(x, y)) {
+      throw new Error(`Mountain position (${x}, ${y}) is outside of the area.`);
+    }
     if (!this.isCellEmpty(x, y)) {
-      LoggerUtils.write(
+      throw new Error(
         `There is already a treasure or mountain at position (${x}, ${y}).`
       );
-      return;
     }
+
     this.grid[y][x].type = CellType.MOUNTAIN;
     this.grid[y][x].content = new Mountain();
   }
 
   addTreasure(x: number, y: number, amount: number): void {
+    if (!this.isCellValid(x, y)) {
+      throw new Error(`Treasure position (${x}, ${y}) is outside of the area.`);
+    }
     if (!this.isCellEmpty(x, y)) {
-      LoggerUtils.write(
+      throw new Error(
         `There is already a treasure or mountain at position (${x}, ${y}).`
       );
-      return;
+    }
+    if (amount <= 0) {
+      throw new Error(`Treasure amount must be positive.`);
     }
     this.grid[y][x].type = CellType.TREASURE;
     this.grid[y][x].content = new Treasure(amount);
@@ -79,8 +91,7 @@ export class Area {
 
     if (!this.grid[newY][newX].occupant) {
       if (this.grid[newY][newX].type !== CellType.MOUNTAIN) {
-        adventurer.horizontalPosition = newX;
-        adventurer.verticalPosition = newY;
+        adventurer.moveForward();
 
         this.grid[oldY][oldX].occupant = null;
         this.grid[newY][newX].occupant = adventurer;
