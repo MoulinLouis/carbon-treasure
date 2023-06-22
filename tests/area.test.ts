@@ -70,7 +70,6 @@ describe("Area", () => {
   it("should display the grid", () => {
     area.addTreasure(0, 0, 1);
     area.addMountain(1, 1);
-    area.addTreasure(2, 2, 5);
     area.addTreasure(3, 3, 3);
     area.addTreasure(4, 4, 1);
     const adventurer = new Adventurer("Indiana", 2, 2, "S", "", 0, area);
@@ -78,7 +77,7 @@ describe("Area", () => {
     const expectedMap =
       " T(1)  .  .  .  . \n" +
       " .  M  .  .  . \n" +
-      " .  .  T(5)  A(Indiana) .  . \n" +
+      " .  .  A(Indiana) .  . \n" +
       " .  .  .  T(3)  . \n" +
       " .  .  .  .  T(1) \n";
 
