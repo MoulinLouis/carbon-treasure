@@ -1,11 +1,13 @@
 import { FileUtils } from "../utils/fileUtills";
 import { ParserUtils } from "../utils/parserUtils";
+import { Adventurer } from "./adventurer";
+import { Area } from "./area";
 
 export class Game {
   private inputFilePath: string;
   private outputFilePath: string;
-  private area: any;
-  private adventurers: any[] = [];
+  private area!: Area;
+  private adventurers: Adventurer[] = [];
 
   constructor(inputFilePath: string, outputFilePath: string) {
     this.inputFilePath = inputFilePath;
@@ -33,7 +35,7 @@ export class Game {
 
   run() {
     try {
-      // Execute the movement of each adventurer
+      // Execute the movements of each adventurer
       const movementSequences = this.adventurers.map((adventurer) =>
         adventurer.executeMovementSequence()
       );
@@ -52,6 +54,12 @@ export class Game {
 
       console.log("Displaying actual map:");
       console.log(this.area.displayMap());
+
+      this.adventurers.forEach((adventurer) => {
+        console.log(
+          `Adventurer ${adventurer.name} collected ${adventurer.treasuresCollected} treasures.`
+        );
+      });
     } catch (err) {
       console.error(`Unexpected error during execution: ${err}`);
     }
