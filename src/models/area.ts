@@ -26,20 +26,25 @@ export class Area {
       for (let j = 0; j < this.width; j++) {
         switch (this.grid[i][j].type) {
           case CellType.PLAIN:
-            mapString += " . ";
+            if (this.grid[i][j].occupant) {
+              mapString += " A(" + this.grid[i][j].occupant?.name + ")";
+            } else {
+              mapString += " . ";
+            }
             break;
           case CellType.MOUNTAIN:
             mapString += " M ";
             break;
           case CellType.TREASURE:
-            const treasure = this.grid[i][j].content as Treasure;
-            mapString += ` T(${treasure.amount}) `;
+            if (this.grid[i][j].occupant) {
+              mapString += " A(" + this.grid[i][j].occupant?.name + ")";
+            } else {
+              const treasure = this.grid[i][j].content as Treasure;
+              mapString += ` T(${treasure.amount}) `;
+            }
             break;
           default:
             mapString += " ? ";
-        }
-        if (this.grid[i][j].occupant) {
-          mapString += " A(" + this.grid[i][j].occupant?.name + ")";
         }
       }
       mapString += "\n";
