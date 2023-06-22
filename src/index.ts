@@ -15,7 +15,7 @@ const { area, adventurers } = ParserUtils.parseInputData(inputData);
 
 // Show the map in the console
 console.log("Displaying map:");
-area.displayMap();
+console.log(area.displayMap());
 
 // Add adventurers and execute their movements
 adventurers.forEach((adventurer) => {

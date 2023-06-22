@@ -20,7 +20,7 @@ export class Area {
     LoggerUtils.write(`Area of size ${width}x${height} created.`);
   }
 
-  displayMap(): void {
+  displayMap(): string {
     let mapString = "";
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width; j++) {
@@ -32,18 +32,19 @@ export class Area {
             mapString += " M ";
             break;
           case CellType.TREASURE:
-            mapString += " T ";
+            const treasure = this.grid[i][j].content as Treasure;
+            mapString += ` T(${treasure.amount}) `;
             break;
           default:
             mapString += " ? ";
         }
         if (this.grid[i][j].occupant) {
-          mapString += " A (" + this.grid[i][j].occupant?.name + ")";
+          mapString += " A(" + this.grid[i][j].occupant?.name + ")";
         }
       }
       mapString += "\n";
     }
-    console.log(mapString);
+    return mapString;
   }
 
   addMountain(x: number, y: number): void {
@@ -90,8 +91,7 @@ export class Area {
 
     if (!this.grid[newY][newX].occupant) {
       if (this.grid[newY][newX].type !== CellType.MOUNTAIN) {
-        adventurer.horizontalPosition = newX;
-        adventurer.verticalPosition = newY;
+        adventurer.moveForward();
 
         this.grid[oldY][oldX].occupant = null;
         this.grid[newY][newX].occupant = adventurer;
