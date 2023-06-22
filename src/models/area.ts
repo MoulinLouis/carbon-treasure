@@ -20,6 +20,10 @@ export class Area {
     LoggerUtils.write(`Area of size ${width}x${height} created.`);
   }
 
+  /**
+   * Displays the area as a string.
+   * @returns A string representation the area.
+   */
   displayMap(): string {
     let mapString = "";
     for (let i = 0; i < this.height; i++) {
@@ -52,6 +56,11 @@ export class Area {
     return mapString;
   }
 
+  /**
+   * Adds a mountain to the area.
+   * @param x The horizontal position of the mountain.
+   * @param y The vertical position of the mountain.
+   */
   addMountain(x: number, y: number): void {
     if (!this.isCellValid(x, y)) {
       throw new Error(`Mountain position (${x}, ${y}) is outside of the area.`);
@@ -66,6 +75,12 @@ export class Area {
     this.grid[y][x].content = new Mountain();
   }
 
+  /**
+   * Adds a treasure to the area.
+   * @param x The horizontal position of the treasure.
+   * @param y The vertical position of the treasure.
+   * @param amount The amount of treasures in the treasure.
+   */
   addTreasure(x: number, y: number, amount: number): void {
     if (!this.isCellValid(x, y)) {
       throw new Error(`Treasure position (${x}, ${y}) is outside of the area.`);
@@ -82,14 +97,32 @@ export class Area {
     this.grid[y][x].content = new Treasure(amount);
   }
 
+  /**
+   * Checks if a cell is empty.
+   * @param x The horizontal position of the cell.
+   * @param y The vertical position of the cell.
+   * @returns True if the cell is empty, false otherwise.
+   */
   isCellEmpty(x: number, y: number): boolean {
     return this.grid[y][x].type === CellType.PLAIN;
   }
 
+  /**
+   * Checks if a cell is valid.
+   * @param x The horizontal position of the cell.
+   * @param y The vertical position of the cell.
+   * @returns True if the cell is valid, false otherwise.
+   */
   isCellValid(x: number, y: number): boolean {
     return x >= 0 && x < this.width && y >= 0 && y < this.height;
   }
 
+  /**
+   * Moves an adventurer to a new cell.
+   * @param adventurer The adventurer to move.
+   * @param newX The horizontal position of the new cell.
+   * @param newY The vertical position of the new cell.
+   */
   moveAdventurer(adventurer: Adventurer, newX: number, newY: number): void {
     const oldX = adventurer.horizontalPosition;
     const oldY = adventurer.verticalPosition;

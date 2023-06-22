@@ -14,6 +14,9 @@ export class Game {
     this.outputFilePath = outputFilePath;
   }
 
+  /**
+   * Initializes the game by reading the input file and parsing the data.
+   */
   init() {
     console.log(`Reading file from path ${this.inputFilePath}`);
 
@@ -33,6 +36,9 @@ export class Game {
     }
   }
 
+  /**
+   * Runs the game.
+   */
   run() {
     try {
       // Execute the movements of each adventurer
@@ -65,6 +71,9 @@ export class Game {
     }
   }
 
+  /**
+   * Saves the results of the game to the output file.
+   */
   saveResults() {
     try {
       // Format output data

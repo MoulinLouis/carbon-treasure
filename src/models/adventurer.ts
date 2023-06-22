@@ -38,6 +38,9 @@ export class Adventurer {
     );
   }
 
+  /**
+   * Moves the adventurer forward by one cell in the direction it is facing.
+   */
   moveForward(): void {
     if (this.orientation === "N") {
       this.verticalPosition--;
@@ -50,18 +53,28 @@ export class Adventurer {
     }
   }
 
+  /**
+   * Turns the adventurer left.
+   */
   turnLeft(): void {
     const orientations = ["N", "W", "S", "E"];
     const currentIndex = orientations.indexOf(this.orientation);
     this.orientation = orientations[(currentIndex + 1) % 4];
   }
 
+  /**
+   * Turns the adventurer right.
+   */
   turnRight(): void {
     const orientations = ["N", "E", "S", "W"];
     const currentIndex = orientations.indexOf(this.orientation);
     this.orientation = orientations[(currentIndex + 1) % 4];
   }
 
+  /**
+   * Changes the orientation of the adventurer.
+   * @param movement The movement to execute.
+   */
   changeOrientation(movement: string): void {
     if (movement === "D") {
       this.turnRight();
@@ -70,6 +83,10 @@ export class Adventurer {
     }
   }
 
+  /**
+   * Executes the adventurer's movement sequence.
+   * @returns A generator that yields after each movement.
+   */
   *executeMovementSequence(): Generator<void, void, unknown> {
     for (const movement of this.movementSequence) {
       if (movement === "A") {
