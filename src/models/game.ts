@@ -1,0 +1,76 @@
+import { FileUtils } from "../utils/fileUtills";
+import { ParserUtils } from "../utils/parserUtils";
+
+export class Game {
+  private inputFilePath: string;
+  private outputFilePath: string;
+  private area: any;
+  private adventurers: any[] = [];
+
+  constructor(inputFilePath: string, outputFilePath: string) {
+    this.inputFilePath = inputFilePath;
+    this.outputFilePath = outputFilePath;
+  }
+
+  init() {
+    console.log(`Reading file from path ${this.inputFilePath}`);
+
+    try {
+      const inputData = FileUtils.readFile(this.inputFilePath);
+
+      // Parse the input data
+      const { area, adventurers } = ParserUtils.parseInputData(inputData);
+      this.area = area;
+      this.adventurers = adventurers;
+
+      // Show the map in the console
+      console.log("Displaying base map:");
+      console.log(this.area.displayMap());
+    } catch (err) {
+      console.error(`Unexpected error during initialization: ${err}`);
+    }
+  }
+
+  run() {
+    try {
+      // Execute the movement of each adventurer
+      const movementSequences = this.adventurers.map((adventurer) =>
+        adventurer.executeMovementSequence()
+      );
+      let doneCount = 0;
+
+      while (doneCount < this.adventurers.length) {
+        for (let i = 0; i < movementSequences.length; i++) {
+          const { done } = movementSequences[i].next();
+          if (done) {
+            doneCount++;
+            movementSequences.splice(i, 1);
+            i--;
+          }
+        }
+      }
+
+      console.log("Displaying actual map:");
+      console.log(this.area.displayMap());
+    } catch (err) {
+      console.error(`Unexpected error during execution: ${err}`);
+    }
+  }
+
+  saveResults() {
+    try {
+      // Format output data
+      const outputData = ParserUtils.formatOutputData(
+        this.area,
+        this.adventurers
+      );
+
+      // Write the formatted result to the output file
+      FileUtils.writeFile(this.outputFilePath, outputData);
+
+      console.log(`Successfully wrote output file: ${this.outputFilePath}`);
+    } catch (err) {
+      console.error(`Unexpected error during result saving: ${err}`);
+    }
+  }
+}

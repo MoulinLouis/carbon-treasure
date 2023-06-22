@@ -1,52 +1,10 @@
-import { ParserUtils } from "./utils/parserUtils";
-import { FileUtils } from "./utils/fileUtills";
+import { Game } from "./models/game";
 
 // Define input and output files
 const inputFilePath = "./data/input.txt";
 const outputFilePath = "./data/output.txt";
 
-console.log(`Reading file from path ${inputFilePath}`);
-
-// Read the input file (./data/input.txt)
-try {
-  const inputData = FileUtils.readFile(inputFilePath);
-
-  // Parse the input data
-  const { area, adventurers } = ParserUtils.parseInputData(inputData);
-
-  // Show the map in the console
-  console.log("Displaying base map:");
-  console.log(area.displayMap());
-
-  // // Add adventurers and execute their movements
-  // adventurers.forEach((adventurer) => {
-  //   adventurer.executeMovementSequence();
-  // });
-
-  const movementSequences = adventurers.map((a) => a.executeMovementSequence());
-  let doneCount = 0;
-
-  while (doneCount < adventurers.length) {
-    for (let i = 0; i < movementSequences.length; i++) {
-      const { done } = movementSequences[i].next();
-      if (done) {
-        doneCount++;
-        movementSequences.splice(i, 1);
-        i--;
-      }
-    }
-  }
-
-  console.log("Displaying actual map:");
-  console.log(area.displayMap());
-
-  // Format output data
-  const outputData = ParserUtils.formatOutputData(area, adventurers);
-
-  // Write the formatted result to the output file (./data/output.txt)
-  FileUtils.writeFile(outputFilePath, outputData);
-
-  console.log(`Successfully wrote output file: ${outputFilePath}`);
-} catch (err) {
-  console.error(`Unexpected error: ${err}`);
-}
+const game = new Game(inputFilePath, outputFilePath);
+game.init();
+game.run();
+game.saveResults();
