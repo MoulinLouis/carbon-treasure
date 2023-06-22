@@ -37,7 +37,7 @@ export class Area {
           default:
             mapString += " ? ";
         }
-        if(this.grid[i][j].occupant) {
+        if (this.grid[i][j].occupant) {
           mapString += " A (" + this.grid[i][j].occupant?.name + ")";
         }
       }
@@ -47,22 +47,30 @@ export class Area {
   }
 
   addMountain(x: number, y: number): void {
+    if (!this.isCellValid(x, y)) {
+      throw new Error(`Mountain position (${x}, ${y}) is outside of the area.`);
+    }
     if (!this.isCellEmpty(x, y)) {
-      LoggerUtils.write(
+      throw new Error(
         `There is already a treasure or mountain at position (${x}, ${y}).`
       );
-      return;
     }
+
     this.grid[y][x].type = CellType.MOUNTAIN;
     this.grid[y][x].content = new Mountain();
   }
 
   addTreasure(x: number, y: number, amount: number): void {
+    if (!this.isCellValid(x, y)) {
+      throw new Error(`Treasure position (${x}, ${y}) is outside of the area.`);
+    }
     if (!this.isCellEmpty(x, y)) {
-      LoggerUtils.write(
+      throw new Error(
         `There is already a treasure or mountain at position (${x}, ${y}).`
       );
-      return;
+    }
+    if (amount <= 0) {
+      throw new Error(`Treasure amount must be positive.`);
     }
     this.grid[y][x].type = CellType.TREASURE;
     this.grid[y][x].content = new Treasure(amount);
