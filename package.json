@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc --noEmit && ts-node ./src/index.ts",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --verbose",
     "format": "prettier --write \"src/**/*.ts\"",
     "coverage": "NODE_ENV=test jest --coverage --coverageReporters html"
   },
